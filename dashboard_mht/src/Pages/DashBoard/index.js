@@ -1,7 +1,9 @@
-import Typography from 'antd'
+import { Typography } from "antd";
 function DashBoard() {
-    return <div>
-        <Typography.Test>DashBoard</Typography.Test>
+  return (
+    <div>
+      <Typography.Title level={4}>Dashboard</Typography.Title>
     </div>
+  );
 }
-export default DashBoard
+export default DashBoard;

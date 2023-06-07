@@ -1,7 +1,9 @@
-import Typography from 'antd'
+import { Typography } from "antd";
 function Employee() {
-    return <div>
-        <Typography.Test>Employee</Typography.Test>
+  return (
+    <div>
+      <Typography.Title level={4}>Employee</Typography.Title>
     </div>
+  );
 }
-export default Employee
+export default Employee;

@@ -1,9 +1,9 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { Route, Routes} from "react-router-dom";
 import DashBoard from "../../Pages/DashBoard";
 import Employee from "../../Pages/Employee";
 import Personal from "../../Pages/Personal";
 import Staff from "../../Pages/Staff";
-function AppRoutes() {
+function AppRoute() {
     return(
         <Routes>
             <Route path="/" element={<DashBoard/>}></Route>
@@ -13,4 +13,4 @@ function AppRoutes() {
         </Routes>
     );
 }
-export default AppRoutes
+export default AppRoute;
