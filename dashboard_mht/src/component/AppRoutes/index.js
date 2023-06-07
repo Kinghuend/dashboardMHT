@@ -11,6 +11,6 @@ function AppRoutes() {
             <Route path="/Personal" element={<Personal/>}></Route>
             <Route path="/Staff" element={<Staff/>}></Route>
         </Routes>
-    )
+    );
 }
 export default AppRoutes
