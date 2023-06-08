@@ -5,7 +5,28 @@ import { FaDollarSign } from "react-icons/fa";
 import { BsPersonBadge } from "react-icons/bs";
 import { useEffect } from "react";
 import { useState } from 'react';
+// import API
 import { getCustomers, getInventory, getOrders, getRevenue } from "../../API";
+// import chart
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function DashBoard() {
   return (
@@ -20,6 +41,7 @@ function DashBoard() {
         </Space>
         <Space>
           <RecentOrder/>
+          <DashBoardChart/>
         </Space>
       </Space>
 
@@ -70,5 +92,54 @@ function RecentOrder() {
   ></Table>
   </>
   )
+}
+function DashBoardChart() {
+  const [reveneuData, setReveneuData] = useState({
+    labels: [],
+    datasets: [],
+  });
+
+  useEffect(() => {
+    getRevenue().then((res) => {
+      const labels = res.carts.map((cart) => {
+        return `User-${cart.userId}`;
+      });
+      const data = res.carts.map((cart) => {
+        return cart.discountedTotal;
+      });
+
+      const dataSource = {
+        labels,
+        datasets: [
+          {
+            label: "Revenue",
+            data: data,
+            backgroundColor: "rgba(255, 0, 0, 1)",
+          },
+        ],
+      };
+
+      setReveneuData(dataSource);
+    });
+  }, []);
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "bottom",
+      },
+      title: {
+        display: true,
+        text: "Order Revenue",
+      },
+    },
+  };
+
+  return (
+    <Card style={{ width: 500, height: 250 }}>
+      <Bar options={options} data={reveneuData} />
+    </Card>
+  );
 }
 export default DashBoard;
