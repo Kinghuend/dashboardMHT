@@ -1,110 +1,107 @@
-import { Menu, Dropdown , Space } from "antd";
-import { MdDashboard } from "react-icons/md";
-import { BsPeopleFill } from "react-icons/bs";
-import { FaPeopleCarry } from "react-icons/fa";
-import { MdPersonalVideo } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-import { DownOutlined, SmileOutlined } from "@ant-design/icons";
-// import {
-//     MdDashboard,
-//     BsPeopleFill,
-//     FaPeopleCarry,
-//     MdPersonalVideo,
-// } from "@ant-design/icons";
-function SlideMenu() {
+import React, { useEffect, useState } from 'react';
+import { Menu, Dropdown } from 'antd';
+import { MdDashboard } from 'react-icons/md';
+import { BsPeopleFill } from 'react-icons/bs';
+import { FaPeopleCarry } from 'react-icons/fa';
+import { MdPersonalVideo } from 'react-icons/md';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+const { SubMenu } = Menu;
+// const { DownOutlined } = Icons;
+
+function SideMenu() {
+  const location = useLocation();
+  const [selectedKeys, setSelectedKeys] = useState("/");
+
+  useEffect(() => {
+    const pathName = location.pathname;
+    setSelectedKeys(pathName);
+  }, [location.pathname]);
+
   const navigate = useNavigate();
 
-  const item = [
-    {
-      key: "1",
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
-          1st menu item
-        </a>
-      ),
-    },
-    {
-      key: "2",
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.aliyun.com"
-        >
-          2nd menu item (disabled)
-        </a>
-      ),
-      icon: <SmileOutlined />,
-      disabled: true,
-    },
-    {
-      key: "3",
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
-        >
-          3rd menu item (disabled)
-        </a>
-      ),
-      disabled: true,
-    },
-    {
-      key: "4",
-      danger: true,
-      label: "a danger item",
-    },
-  ];
-  // staffMenu
-  const staffMenu = () => (
-    <Dropdown
-      menu={{
-        item,
-      }}
-    >
-      <a onClick={(e) => e.preventDefault()}>
-        <Space>
-          Hover me
-          <DownOutlined />
-        </Space>
-      </a>
-    </Dropdown>
+  const handleMenuClick = (item) => {
+    navigate(item.key);
+  };
+
+  const staffMenu = (
+    <Menu onClick={handleMenuClick}>
+      <Menu.Item key="/Staff/Add">Add Staff</Menu.Item>
+      <Menu.Item key="/Staff/Delete">Delete Staff</Menu.Item>
+    </Menu>
+  );
+
+  const employeeMenu = (
+    <Menu onClick={handleMenuClick}>
+      <Menu.Item key="/Employee/Add">Add Employee</Menu.Item>
+      <Menu.Item key="/Employee/Delete">Delete Employee</Menu.Item>
+    </Menu>
+  );
+
+  const personalMenu = (
+    <Menu onClick={handleMenuClick}>
+      <Menu.Item key="/Personal/Add">Add Personal</Menu.Item>
+      <Menu.Item key="/Personal/Delete">Delete Personal</Menu.Item>
+    </Menu>
   );
 
   return (
-    <div className="SlideMenu">
+    <div className="SideMenu">
       <Menu
-        items={[
-          {
-            label: "DashBoard",
-            icon: <MdDashboard />,
-            key: "/",
-          },
-          {
-            label: "Staff",
-            icon: <BsPeopleFill />,
-            key: "/Staff",
-            submenu: staffMenu, // Thêm dropdown menu vào mục "Staff"
-          },
-          {
-            label: "Employee",
-            icon: <FaPeopleCarry />,
-            key: "/Employee",
-          },
-          {
-            label: "Personal",
-            icon: <MdPersonalVideo />,
-            key: "/Personal",
-          },
-        ]}
-      />
+        className="SideMenuVertical"
+        mode="vertical"
+        onClick={handleMenuClick}
+        selectedKeys={[selectedKeys]}
+      >
+        <Menu.Item key="/">
+          <MdDashboard />
+          <span>DashBoard</span>
+        </Menu.Item>
+        <SubMenu
+          key="/Staff"
+          title={
+            <span>
+              <BsPeopleFill />
+              <span>Staff</span>
+            </span>
+          }
+        >
+          <Menu.ItemGroup key="/Staff" title="Staff">
+            <Menu.Item key="/Staff/Add">Add Staff</Menu.Item>
+            <Menu.Item key="/Staff/Delete">Delete Staff</Menu.Item>
+          </Menu.ItemGroup>
+        </SubMenu>
+        <SubMenu
+          key="/Employee"
+          title={
+            <span>
+              <FaPeopleCarry />
+              <span>Employee</span>
+            </span>
+          }
+        >
+          <Menu.ItemGroup key="/Employee" title="Employee">
+            <Menu.Item key="/Employee/Add">Add Employee</Menu.Item>
+            <Menu.Item key="/Employee/Delete">Delete Employee</Menu.Item>
+          </Menu.ItemGroup>
+        </SubMenu>
+        <SubMenu
+          key="/Personal"
+          title={
+            <span>
+              <MdPersonalVideo />
+              <span>Personal</span>
+            </span>
+          }
+        >
+          <Menu.ItemGroup key="/Personal" title="Personal">
+            <Menu.Item key="/Personal/Add">Add Personal</Menu.Item>
+            <Menu.Item key="/Personal/Delete">Delete Personal</Menu.Item>
+          </Menu.ItemGroup>
+        </SubMenu>
+      </Menu>
     </div>
   );
 }
 
-export default SlideMenu;
+export default SideMenu;

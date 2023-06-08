@@ -2,7 +2,7 @@ import { Typography } from "antd";
 function Staff() {
   return (
     <div>
-      <Typography.Title level={4}>Staf</Typography.Title>
+      <Typography.Title level={4}>Staff</Typography.Title>
     </div>
   );
 }
